@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
+    private $user_id = 1; // To do: User accounts
+
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +37,18 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $incomingFields = $request->validate([
+            'title' => 'required',
+            'source_lang' => 'required',
+        ]);
+
+        $incomingFields['title'] = strip_tags($incomingFields['title']);
+        $incomingFields['source_lang'] = strip_tags($incomingFields['source_lang']);
+        $incomingFields['description'] = strip_tags($request->input('description'));
+        $incomingFields['user_id'] = $this->user_id; //auth()->id();
+
+        Project::create($incomingFields);
+        return redirect('/projects');
     }
 
     /**
@@ -46,7 +59,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return view('projects', [
+            'projects' => Project::findOrFail()->all()
+        ]);
     }
 
     /**

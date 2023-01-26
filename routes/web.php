@@ -19,3 +19,4 @@ Route::get('/', function () {
 });
 
 Route::resource('projects', ProjectController::class);
+//Route::post('/create-project', [ProjectController::class, 'create']);

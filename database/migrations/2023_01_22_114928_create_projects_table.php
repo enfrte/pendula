@@ -15,9 +15,8 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            //$table->unsignedBigInteger('user_id');
             $table->string('title', 500);
-            $table->string('description', 5000);
+            $table->string('description', 5000)->nullable();
             $table->char('source_lang', 2);
             $table->timestamps();
             $table->foreignId('user_id')->constrained();

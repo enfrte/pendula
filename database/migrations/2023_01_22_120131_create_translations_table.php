@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('translations', function (Blueprint $table) {
             $table->id();
+            $table->char('translation_lang', 2);
             $table->string('translation', 1000);
             $table->timestamps();
             $table->foreignId('source_sentenece_id')->constrained();
