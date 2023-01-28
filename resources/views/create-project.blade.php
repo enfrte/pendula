@@ -12,10 +12,29 @@
 				<textarea class="form-control" name="description" rows="3" placeholder="Description"></textarea>
 			</div>
 			<div class="mb-3">
-				<select name="source_lang" class="form-select" aria-label="Default select example">
-					<option selected>Select a source language</option>
-					<option value="en">English</option>
-				  </select>
+				<div class="row g-2">
+					<div class="col-md-6">
+						@fragment('language-select')
+						<select name="source_lang" id="source_lang" class="form-select form-control" aria-label="Default select example">
+							<option selected>Select a source language</option>
+							@foreach ($languages as $iso => $language)
+								<option value="{{ $iso }}">{{ $language }}</option>
+							@endforeach
+						</select>
+						@endfragment
+					</div>
+					<div class="col-md-6">
+						<input 
+							type="search" 
+							name="language-search"
+							hx-post="/languageSearch" 
+							hx-target="#source_lang"
+							hx-swap="outerHTML"
+							hx-trigger="keyup changed delay:500ms, search" 
+							class="form-control"
+							placeholder="Filter language selection">
+					</div>
+				</div>
 			</div>
 			<button type="submit" class="btn btn-primary">Create project</button>
 		</form>

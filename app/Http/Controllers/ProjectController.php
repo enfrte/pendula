@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Languages\Language;
 
 class ProjectController extends Controller
 {
@@ -26,7 +27,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('create-project');
+        return view('create-project', [
+            'languages' => Language::getIsoLanguages(),
+        ]);
     }
 
     /**
@@ -60,7 +63,7 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         return view('projects', [
-            'projects' => Project::findOrFail()->all()
+            'projects' => Project::all()
         ]);
     }
 
@@ -97,4 +100,5 @@ class ProjectController extends Controller
     {
         //
     }
+    
 }
