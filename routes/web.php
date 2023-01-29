@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\FragmentHandler\LanguageSelect;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SourceSentenceController;
+use App\Http\Controllers\FragmentHandlers\LanguageSelect;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +18,19 @@ use App\Http\Controllers\ProjectController;
 
 //dd(resolve('App\Languages\Language'));
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('welcome');
-});
+}); */
 
+// Home
+Route::get('/', [ProjectController::class, 'index']);
+
+// Projects
 Route::resource('projects', ProjectController::class);
-//Route::post('/create-project', [ProjectController::class, 'create']);
+
+// Sentences upload
+Route::get('add-sentences/{id}', [SourceSentenceController::class, 'create']);
+Route::resource('sourceSentences', SourceSentenceController::class);
 
 // htmx fragment handlers 
-Route::post('/languageSearch', LanguageSelect::class);
+Route::post('languageSearch', LanguageSelect::class);

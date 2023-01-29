@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\FragmentHandler;
+namespace App\Http\Controllers\FragmentHandlers;
 
 use App\Http\Controllers\Controller;
 use App\Languages\Language;

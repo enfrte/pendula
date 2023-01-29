@@ -17,7 +17,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return $this->create();
+        return view('projects', [
+            'projects' => Project::all()
+        ]);
     }
 
     /**
@@ -75,7 +77,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('create-project', [
+            'project' => Project::find($project->id)
+        ]);
     }
 
     /**
@@ -98,7 +102,15 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        // The id from the uri (passed to route) was used to create the project instance
+        $project->delete();
+        
+        return;
     }
-    
+
+    public function deleteProject(Project $project)
+    {
+        $foo = $_POST;
+        return '';
+    }
 }
