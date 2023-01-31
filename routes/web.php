@@ -29,8 +29,8 @@ Route::get('/', [ProjectController::class, 'index']);
 Route::resource('projects', ProjectController::class);
 
 // Sentences upload
-Route::get('add-sentences/{id}', [SourceSentenceController::class, 'create']);
-Route::resource('sourceSentences', SourceSentenceController::class);
+//Route::get('add-sentences/{id}', [SourceSentenceController::class, 'create']);
+//Route::resource('sourceSentences', SourceSentenceController::class);
 
 // htmx fragment handlers 
 Route::post('languageSearch', LanguageSelect::class);

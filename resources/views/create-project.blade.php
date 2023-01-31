@@ -2,8 +2,13 @@
 
 	<h1 class="mt-5">Create new poject</h1>
 
-	<form action="/projects" method='post'>
+	<form action="/projects{{ '/'.$project->id ?? '' }}" method="post">
 		@csrf
+		@empty($project->id)
+			@method('POST')
+		@else
+			@method('PUT')
+		@endempty 
 		<div class="mb-3">
 			<input name="title" value="{{ $project->title ?? '' }}" type="text" class="form-control" placeholder="Project title">
 		</div>
@@ -17,7 +22,7 @@
 					<input 
 						type="search" 
 						name="language-search"
-						hx-post="languageSearch" 
+						hx-post="/languageSearch" 
 						hx-target="#source_lang"
 						hx-swap="outerHTML"
 						hx-trigger="keyup changed delay:500ms, search" 

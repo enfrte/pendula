@@ -42,18 +42,23 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $incomingFields = $request->validate([
-            'title' => 'required',
-            'source_lang' => 'required',
-        ]);
+        try {
+            $incomingFields = $request->validate([
+                'title' => 'required',
+                'source_lang' => 'required',
+            ]);
 
-        $incomingFields['title'] = strip_tags($incomingFields['title']);
-        $incomingFields['source_lang'] = strip_tags($incomingFields['source_lang']);
-        $incomingFields['description'] = strip_tags($request->input('description'));
-        $incomingFields['user_id'] = $this->user_id; //auth()->id();
+            $incomingFields['title'] = strip_tags($incomingFields['title']);
+            $incomingFields['source_lang'] = strip_tags($incomingFields['source_lang']);
+            $incomingFields['description'] = strip_tags($request->input('description'));
+            $incomingFields['user_id'] = $this->user_id; //auth()->id();
 
-        Project::create($incomingFields);
-        return redirect('/projects');
+            Project::create($incomingFields);
+            return redirect('/projects');
+        } catch (\Throwable $th) {
+            $request->session()->flash('status', 'Task was successful!');
+            //echo $th->getMessage();
+        }
     }
 
     /**
@@ -91,7 +96,20 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        try {
+            $incomingFields = $request->validate([
+                'title' => 'required',
+            ]);
+
+            $incomingFields['title'] = strip_tags($incomingFields['title']);
+            $incomingFields['description'] = strip_tags($request->input('description'));
+
+            $project->update($incomingFields);
+            return redirect('/projects');
+        } catch (\Throwable $th) {
+            //$request->session()->flash('status', 'Task was successful!');
+            echo $th->getMessage();
+        }
     }
 
     /**

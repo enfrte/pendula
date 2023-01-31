@@ -13,7 +13,7 @@
 			<a href="add-sentences/{{ $project->id }}" class="card-link text-nowrap">Add sentences</a>
 			<a href="projects/{{ $project->id }}/edit" class="card-link text-nowrap">Edit project</a>
 			<button 
-				hx-delete="projects/{{ $project->id }}" 
+				hx-delete="/projects/{{ $project->id }}" 
 				hx-target="#project_container_{{ $project->id }}"
 				hx-swap="outerHTML"
 				class="card-link text-nowrap btn btn-link">
