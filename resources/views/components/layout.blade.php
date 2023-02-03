@@ -35,8 +35,15 @@
 	</div>
 
 	<script>
+		// CSRF for HTMX requests
 		document.body.addEventListener('htmx:configRequest', (event) => {
 			event.detail.headers['X-CSRF-Token'] = '{{ csrf_token() }}';
+		});
+
+		// BS Tooltips
+		const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+		const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+			return new bootstrap.Tooltip(tooltipTriggerEl)
 		});
 	</script>
 

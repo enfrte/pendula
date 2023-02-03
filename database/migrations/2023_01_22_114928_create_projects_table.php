@@ -22,6 +22,10 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->comment('The name and details of the text being translated.');
         });
+        Schema::insert(
+            'insert into users (name, email, password) values (?, ?, ?)', 
+            ['leon', 'n2fole00@gmail.com', '0000']
+        );
     }
 
     /**

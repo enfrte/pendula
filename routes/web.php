@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SourceSentenceController;
 use App\Http\Controllers\FragmentHandlers\LanguageSelect;
+use App\Http\Controllers\FragmentHandlers\SentenceUploader;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +30,10 @@ Route::get('/', [ProjectController::class, 'index']);
 Route::resource('projects', ProjectController::class);
 
 // Sentences upload
-//Route::get('add-sentences/{id}', [SourceSentenceController::class, 'create']);
-//Route::resource('sourceSentences', SourceSentenceController::class);
+Route::resource('sourceSentences', SourceSentenceController::class);
+Route::get('add-sentences/{project_id}', [SourceSentenceController::class, 'index']);
+//Route::post('page-upload', [SourceSentenceController::class, 'pageUpload']);
 
 // htmx fragment handlers 
 Route::post('languageSearch', LanguageSelect::class);
+Route::post('sentence-upload/{project_id}', SentenceUploader::class);

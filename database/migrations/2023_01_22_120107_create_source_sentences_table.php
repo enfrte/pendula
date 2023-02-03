@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('project_id')->constrained();
+            $table->unique(['project_id', 'grouping_index', 'page_num']);
             $table->comment('The original text, broken into sentences.');
         });
     }

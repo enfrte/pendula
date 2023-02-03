@@ -56,8 +56,8 @@ class ProjectController extends Controller
             Project::create($incomingFields);
             return redirect('/projects');
         } catch (\Throwable $th) {
-            $request->session()->flash('status', 'Task was successful!');
-            //echo $th->getMessage();
+            //$request->session()->flash('status', 'Error!');
+            echo $th->getMessage();
         }
     }
 
@@ -126,9 +126,4 @@ class ProjectController extends Controller
         return;
     }
 
-    public function deleteProject(Project $project)
-    {
-        $foo = $_POST;
-        return '';
-    }
 }

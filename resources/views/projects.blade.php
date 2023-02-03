@@ -10,7 +10,7 @@
 		</div>
 		<div class="card-body">
 			<a href="translate-sentences/{{ $project->id }}" class="card-link text-nowrap">Translate</a>
-			<a href="add-sentences/{{ $project->id }}" class="card-link text-nowrap">Add sentences</a>
+			<a href="/add-sentences/{{ $project->id }}" class="card-link text-nowrap">Add sentences</a>
 			<a href="projects/{{ $project->id }}/edit" class="card-link text-nowrap">Edit project</a>
 			<button 
 				hx-delete="/projects/{{ $project->id }}" 
