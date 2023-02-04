@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -22,6 +23,12 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        DB::table('users')->insert([
+            'name' => 'admin',
+            'email' => 'n2fole00@gmail.com',
+            'password' => '0000',
+        ]);
     }
 
     /**

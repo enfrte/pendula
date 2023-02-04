@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\FragmentHandlers;
 
-use App\Languages\Language;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -30,7 +29,7 @@ class SentenceUploader extends Controller
             ->where('page_num', $page_num)
             ->get();
             
-        return view('create-project', [
+        return view('source-sentences', [
             'page_num' => $page_num,
             'sentences' => $sentences,
             'project_id' => $project_id

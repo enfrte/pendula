@@ -23,6 +23,7 @@
 				class="form-control" 
 				min="1" max="1000" 
 				type="number" 
+				value="{{ $nextPageNum ?? 1 }}"
 				required>
 		</div>
 		<div class="col-md-8">
@@ -30,17 +31,16 @@
 		</div>
 	</div>
 
-	<div class="row g-3 align-items-center pb-3">
-		{{-- <div class="offset-md-2 col-md-9">
-			<button hx-get="/sentence-upload" type="button" class="btn btn-success">Load page</button>
-		</div> --}}
-	</div>
-
 	@fragment('sentence-upload')
 	<div id="sentences">
-		<input type="hidden" name="project_id" value="{{ $project_id ?? '' }}">
-			{{--<input type="hidden" name="page_num">--}}
-			<textarea class="form-control mb-3" name="sentences" rows="3" placeholder="Description"></textarea>
+		{{-- <input type="hidden" name="project_id" value="{{ $project_id ?? '' }}"> --}}
+		<textarea class="form-control mb-3" name="sentences" rows="3" placeholder="Description">
+			@isset($sentences)
+				@foreach ($sentences as $sentence)
+					{{ $sentence->sentence_text }}
+				@endforeach
+			@endisset
+		</textarea>
 		<button type="submit" class="btn btn-primary">Upload sentences</button>
 	</div>
 	@endfragment

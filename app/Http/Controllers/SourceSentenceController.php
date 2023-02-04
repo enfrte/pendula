@@ -15,18 +15,15 @@ class SourceSentenceController extends Controller
      */
     public function index($project_id)
     {
-        $pages = DB::table('source_sentences')
-            ->select('page_num')
+        $max_page_num = DB::table('source_sentences')
             ->where('project_id', $project_id)
-            ->get();
-        /* $max_page = $pages->max('page_num');
-        $pagination = $pages->paginate();
-        if ( empty($pages) ) {
-        } */
-        //$foo = $pages->paginate();
-        //dd($pages);
+            ->max('page_num');
+
         return view(
-            'source-sentences', ['project_id' => $project_id]
+            'source-sentences', [
+                'project_id' => $project_id,
+                'nextPageNum' => ($max_page_num + 1),
+            ]
         );
     }
 
