@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use App\Models\SourceSentence;
 use Illuminate\Support\Facades\DB;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 class SourceSentenceController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource. Set view to the next empty page.
      *
      * @return \Illuminate\Http\Response
      */
@@ -49,20 +50,46 @@ class SourceSentenceController extends Controller
     {
         $sentences = [];
         $data = [];
-		$sentences = explode(PHP_EOL, $request->sentences);
-		
-		foreach( $sentences as $key => $sentence ) {
-			$data[] = [
-                'grouping_index' => $key,
-                'sentence_text' => $sentence,
-                'page_num' => $request->page_num,
-                'project_id' => $request->project_id,
-                'user_id' => 1,
-			];
-		}
-        
-        DB::table('source_sentences')->insert( $data );
-        return view('source-sentences');
+
+        try {
+            $sentences = explode(PHP_EOL, $request->sentences);
+
+            foreach( $sentences as $key => $sentence ) {
+                $sentence = trim($sentence);
+                
+                if (empty($sentence)) continue;
+
+                $data[] = [
+                    'grouping_index' => $key,
+                    'sentence_text' => $sentence,
+                    'page_num' => $request->page_num,
+                    'project_id' => $request->project_id,
+                    'user_id' => 1,
+                ];
+            }
+
+            if (empty($data)) throw new Exception("No sentences found");
+            
+            DB::table('source_sentences')->insert( $data );
+
+            //return redirect("add-sentences/$request->project_id");
+            //return $this->index($request->project_id);
+
+            $max_page_num = DB::table('source_sentences')
+                ->where('project_id', $request->project_id)
+                ->max('page_num');
+
+            return view(
+                'source-sentences',
+                [
+                    'project_id' => $request->project_id,
+                    'nextPageNum' => ($max_page_num + 1),
+                ]
+            )->fragment('main');
+        } 
+        catch (\Throwable $th) {
+            echo $th->getMessage();
+        }
     }
 
     /**
@@ -129,6 +156,23 @@ class SourceSentenceController extends Controller
     public function destroy(SourceSentence $sourceSentence)
     {
         //
+    }
+
+    public function deleteProjectPage($project_id, $page_num)
+    {
+        DB::table('source_sentences')
+            ->where('page_num', $page_num)
+            ->where('project_id', $project_id)
+            ->delete();
+        
+        //return redirect("add-sentences/$project_id");
+        return view(
+            'source-sentences',
+            [
+                'project_id' => $project_id,
+                'nextPageNum' => $page_num,
+            ]
+        )->fragment('main');
     }
 
 }

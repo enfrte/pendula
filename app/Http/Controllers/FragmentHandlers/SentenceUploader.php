@@ -23,13 +23,15 @@ class SentenceUploader extends Controller
         $page_num = $request->page_num;
         $project_id = $request->project_id;
 
-        $sentences = DB::table('source_sentences')
+        $sentence_collection = DB::table('source_sentences')
             ->select('sentence_text')
             ->where('project_id', $project_id)
             ->where('page_num', $page_num)
             ->get();
-            
-        return view('source-sentences', [
+
+        $sentences = $sentence_collection->implode('sentence_text', "\n");
+        
+        return view("source-sentences", [
             'page_num' => $page_num,
             'sentences' => $sentences,
             'project_id' => $project_id

@@ -2,7 +2,7 @@
 
 	<h1 class="mt-5">Create new poject</h1>
 
-	<form action="/projects{{ $project->id ?? '' }}" method="POST">
+	<form action="/projects/{{ $project->id ?? '' }}" method="POST">
 		@csrf
 		@empty($project->id)
 			@method('POST')

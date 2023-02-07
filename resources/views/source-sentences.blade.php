@@ -1,18 +1,10 @@
 <x-layout>
 
-<h1 class="mt-5">Source sentences</h1>
+<h1 class="pt-5">Source sentences</h1>
 
-<form action="/sourceSentences" method="POST" class="mt-5">
-	@csrf
-	<p>Show some visualisation here. Like from github with the date squares.</p>
+	<h2 class="pt-3">Page {{ $nextPageNum ?? $page_num }}</h2>
 
-	<h2>Pages</h2>
-	<p>If a project has no pages, show a button to add a page with the number 1 as default. If the user starts at 50, show all the previous as empty in the graphic.</p>
-
-	<div class="row g-3 align-items-center pb-3">
-		<div class="col-md-2">
-			<label for="page_number" class="col-form-label">Page:</label>
-		</div>
+	<div class="row align-items-center pt-3">
 		<div class="col-md-2">
 			<input 
 				hx-post="/sentence-upload/{{ $project_id ?? '' }}" 
@@ -31,35 +23,33 @@
 		</div>
 	</div>
 
-	@fragment('sentence-upload')
-	<div id="sentences">
-		{{-- <input type="hidden" name="project_id" value="{{ $project_id ?? '' }}"> --}}
-		<textarea class="form-control mb-3" name="sentences" rows="3" placeholder="Description">
-			@isset($sentences)
-				@foreach ($sentences as $sentence)
-					{{ $sentence->sentence_text }}
-				@endforeach
-			@endisset
-		</textarea>
-		<button type="submit" class="btn btn-primary">Upload sentences</button>
-	</div>
-	@endfragment
+@fragment('sentence-upload')
+<div id="sentences">
+	<form>
+		<input type="hidden" name="project_id" value="{{ $project_id ?? '' }}">
+		<input type="hidden" name="page_num" value="{{ $nextPageNum ?? $page_num }}">
+		
+		<p>Separate sentences with a new line.</p>
+		
+		<textarea class="form-control mb-3" name="sentences" rows="3" placeholder="Page sentences">{{ $sentences ?? '' }}</textarea>
 
-</form>
+		<button 
+			hx-post="/sourceSentences" 
+			hx-target="main"
+			hx-swap="innerHTML" 
+			class="btn btn-primary">
+			@if( !isset($sentences) || empty($sentences) ) Upload sentences @else Edit sentences @endif
+		</button>
 
-
-<script>
-
-/* 	if (localStorage.page_number) {
-		document.getElementById("page_number").value = localStorage.page_number + 1;		
-	} else {
-		localStorage.setItem("page_number", 1);
-	}
-
-	document.getElementById("page_number").addEventListener( 'change', (el) => {
-		localStorage.setItem("page_number", el.target.value);
-	} ); */
-
-</script>
+		<button 
+			hx-delete="/delete-project-page/{{ $project_id }}/{{ $nextPageNum ?? $page_num }}" 
+			hx-target="main"
+			hx-swap="innerHTML" 
+			class="btn btn-danger">
+			Delete sentences
+		</button>
+	</form>
+</div>
+@endfragment
 
 </x-layout>

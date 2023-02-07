@@ -30,9 +30,11 @@
 		</div>
 	</nav>
 
-	<div class="container">
+	@fragment('main')
+	<main class="container">
 		{{ $slot }}
-	</div>
+	</main>
+	@endfragment
 
 	<script>
 		// CSRF for HTMX requests

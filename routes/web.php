@@ -32,6 +32,7 @@ Route::resource('projects', ProjectController::class);
 // Sentences upload
 Route::resource('sourceSentences', SourceSentenceController::class);
 Route::get('add-sentences/{project_id}', [SourceSentenceController::class, 'index']);
+Route::delete('delete-project-page/{project_id}/{page_num}', [SourceSentenceController::class, 'deleteProjectPage']);
 //Route::post('page-upload', [SourceSentenceController::class, 'pageUpload']);
 
 // htmx fragment handlers 
