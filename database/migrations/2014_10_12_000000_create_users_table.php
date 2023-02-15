@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->char('saved_translation_lang', 2)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -28,6 +29,7 @@ return new class extends Migration
             'name' => 'admin',
             'email' => 'n2fole00@gmail.com',
             'password' => '0000',
+            'saved_translation_lang' => 'ie',
         ]);
     }
 

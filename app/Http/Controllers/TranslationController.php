@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+use App\Languages\Language;
 use App\Models\Translation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TranslationController extends Controller
 {
@@ -12,9 +15,30 @@ class TranslationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($project_id)
     {
-        //
+        $lastSourcePage = DB::table('source_sentences')
+            ->where('project_id', $project_id)
+            ->max('page_num');
+
+        $sourcePageTranslations = DB::table('source_sentences')
+            ->leftJoin('translations', 'translations.source_sentenece_id', '=', 'source_sentences.id')
+            ->join('projects', 'projects.id', '=', 'source_sentences.project_id')
+            ->select('*')
+            ->where('projects.id', $project_id)
+            ->where('source_sentences.page_num', $lastSourcePage)
+            ->orderBy('grouping_index')
+            ->get();
+
+        return view( 'translations',
+            [
+                'project_id' => $project_id,
+                'landingPage' => ($lastSourcePage),
+                'languages' => Language::getIsoLanguages(),
+                'sourcePageTranslations' => $sourcePageTranslations,
+                'sourcePageExists' => $sourcePageTranslations->isNotEmpty() ? true : false,
+            ]
+        );
     }
 
     /**

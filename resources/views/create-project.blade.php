@@ -32,7 +32,7 @@
 				<div class="col-md-6">
 					@fragment('language-select')
 					<select name="source_lang" id="source_lang" class="form-select form-control" aria-label="Default select example">
-						<option selected>Select a source language</option>
+						<option value ="" selected>Select a source language</option>
 						@isset($languages)
 						@foreach ($languages as $iso => $language)
 						<option value="{{ $iso }}">{{ $language }}</option>
