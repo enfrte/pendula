@@ -2,9 +2,9 @@
 
 	<h1 class="mt-5">Create new poject</h1>
 
-	<form action="/projects/{{ $project->id ?? '' }}" method="POST">
+	<form action="/projects/{{ $project->project_id ?? '' }}" method="POST">
 		@csrf
-		@empty($project->id)
+		@empty($project->project_id)
 			@method('POST')
 		@else
 			@method('PUT')
@@ -22,7 +22,7 @@
 					<input 
 						type="search" 
 						name="language-search"
-						hx-post="/languageSearch" 
+						hx-post="/languageSearch/create-project" 
 						hx-target="#source_lang"
 						hx-swap="outerHTML"
 						hx-trigger="keyup changed delay:500ms, search" 
@@ -31,8 +31,11 @@
 				</div>
 				<div class="col-md-6">
 					@fragment('language-select')
-					<select name="source_lang" id="source_lang" class="form-select form-control" aria-label="Default select example">
-						<option value ="" selected>Select a source language</option>
+					<select 
+						name="source_lang" 
+						id="source_lang" 
+						class="form-select form-control" aria-label="Default select example">
+						<option value selected>Select a source language</option>
 						@isset($languages)
 						@foreach ($languages as $iso => $language)
 						<option value="{{ $iso }}">{{ $language }}</option>

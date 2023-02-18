@@ -41,8 +41,7 @@ Route::delete('delete-project-page/{project_id}/{page_num}', [SourceSentenceCont
 Route::resource('translations', TranslationController::class);
 Route::get('translate-sentences/{project_id}', [TranslationController::class, 'index']);
 
-
 // htmx fragment handlers 
-Route::post('languageSearch', LanguageSelect::class);
+Route::post('languageSearch/{view}', LanguageSelect::class);
 Route::post('sentence-upload/{project_id}', SentenceUploader::class);
 Route::post('translation-upload/{project_id}', TranslationUploader::class);

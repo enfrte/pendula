@@ -17,7 +17,7 @@ class LanguageSelect extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, $view)
     {
         $search = $request->input('language-search');
         $languages = Language::getIsoLanguages();
@@ -25,7 +25,7 @@ class LanguageSelect extends Controller
             return stripos($language, $search) !== false;
         });
 
-        return view('create-project', [
+        return view($view, [
             'languages' => $search_result
         ])->fragment('language-select');
     }

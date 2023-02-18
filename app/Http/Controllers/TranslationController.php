@@ -59,7 +59,19 @@ class TranslationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = [
+            'translation_lang' => $request->source_lang,
+            'translation' => $request->translation,
+            'source_sentenece_id' => $request->source_sentenece_id,
+            'translator_id' => 1,
+        ];
+
+        DB::table('translations')->insert($data);
+
+        DB::table('users')
+            ->where('id', 1)
+            ->update(['saved_translation_lang' => '']);
+
     }
 
     /**

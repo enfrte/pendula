@@ -14,9 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('translators', function (Blueprint $table) {
-            $table->id();
+            $table->id('translator_id');
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('project_id')->constrained();
+            $table->unsignedBigInteger('project_id');
+            $table->foreign('project_id')->references('project_id')->on('projects');
             $table->timestamps();
             $table->comment('Users that have the rights to translate a project. Project admin can add and remove users.');
         });

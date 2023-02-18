@@ -27,8 +27,8 @@
 			<input 
 				type="search" 
 				name="language-search"
-				hx-post="/languageSearch" 
-				hx-target="#source_lang"
+				hx-post="/languageSearch/translations" 
+				hx-target="#translation_lang"
 				hx-swap="outerHTML"
 				hx-trigger="keyup changed delay:500ms, search" 
 				class="form-control"
@@ -37,9 +37,10 @@
 		<div class="col-md-6">
 			@fragment('language-select')
 			<select 
-				name="source_lang" 
-				id="source_lang" 
-				class="form-select form-control" aria-label="Default select example">
+				name="translation_lang" 
+				id="translation_lang" 
+				class="form-select form-control" 
+				aria-label="Default select example">
 				<option value selected>Select a translation language</option>
 				@isset($languages)
 				@foreach ($languages as $iso => $language)
@@ -63,7 +64,8 @@
 
 <div class="col-md-6">
 	<form>
-		<input type="hidden" name="{{ $landingPage }}">
+		<input type="hidden" name="source_sentenece_id" value="{{ $translation->source_sentenece_id }}">
+		<input type="hidden" name="source_sentenece_id" value="{{ $translation->source_sentenece_id }}">
 
 		<textarea 
 			class="form-control"
@@ -71,9 +73,8 @@
 			rows="3">@if(!empty($translation->translation)){{ $translation->translation }}@endif</textarea>
 		
 		<button 
-			hx-post="/translations/{{ $translation->id }}" 
-			hx-target="none"
-			hx-include="#source_lang"
+			hx-post="/translations" 
+			hx-include="#translation_lang"
 			class="btn btn-success mt-3 mb-2">
 			Save
 		</button>
