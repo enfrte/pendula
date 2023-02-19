@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use Illuminate\Http\Request;
+use App\Models\Translator;
 use App\Languages\Language;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -43,19 +45,32 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         try {
-            $incomingFields = $request->validate([
-                'title' => 'required',
-                'source_lang' => 'required',
-            ]);
+            DB::transaction(function () use ($request) 
+            {
+                $incomingFields = $request->validate([
+                    'title' => 'required',
+                    'source_lang' => 'required',
+                ]);
 
-            $incomingFields['title'] = strip_tags($incomingFields['title']);
-            $incomingFields['source_lang'] = strip_tags($incomingFields['source_lang']);
-            $incomingFields['description'] = strip_tags($request->input('description'));
-            $incomingFields['user_id'] = $this->user_id; //auth()->id();
+                $incomingFields['title'] = strip_tags($incomingFields['title']);
+                $incomingFields['source_lang'] = strip_tags($incomingFields['source_lang']);
+                $incomingFields['description'] = strip_tags($request->input('description'));
+                $incomingFields['user_id'] = $this->user_id; //auth()->id();
 
-            Project::create($incomingFields);
+                $project = Project::create($incomingFields);
+
+                // Store creator as a translator
+                $translatorColumns = [
+                    'user_id' => $this->user_id,
+                    'project_id' => $project->id
+                ];
+
+                Translator::create($translatorColumns);
+            });
+
             return redirect('/projects');
-        } catch (\Throwable $th) {
+        } 
+        catch (\Throwable $th) {
             //$request->session()->flash('status', 'Error!');
             echo $th->getMessage();
         }

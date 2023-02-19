@@ -21,7 +21,7 @@ class TranslationUploader extends Controller
     public function __invoke(Request $request, $project_id)
     {
         $sourcePageTranslations = DB::table('source_sentences')
-        ->leftJoin('translations', 'translations.source_sentenece_id', '=', 'source_sentences.id')
+        ->leftJoin('translations', 'translations.source_sentence_id', '=', 'source_sentences.id')
         ->join('projects', 'projects.id', '=', 'source_sentences.project_id')
         ->select('*')
             ->where('projects.id', $project_id)

@@ -57,6 +57,7 @@
 <div id="translation-upload" class="row g-2 pt-5">
 @if ( $sourcePageExists )
 @foreach ($sourcePageTranslations as $translation)
+
 <hr>
 <div class="col-md-6">
 	<p>{{ $translation->sentence_text }}</p>
@@ -64,8 +65,10 @@
 
 <div class="col-md-6">
 	<form>
-		<input type="hidden" name="source_sentenece_id" value="{{ $translation->source_sentenece_id }}">
-		<input type="hidden" name="source_sentenece_id" value="{{ $translation->source_sentenece_id }}">
+		<input 
+			type="hidden" 
+			name="source_sentence_id" 
+			value="{{ $translation->source_sentence_id }}">
 
 		<textarea 
 			class="form-control"

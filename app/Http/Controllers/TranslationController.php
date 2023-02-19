@@ -22,10 +22,10 @@ class TranslationController extends Controller
             ->max('page_num');
 
         $sourcePageTranslations = DB::table('source_sentences')
-            ->leftJoin('translations', 'translations.source_sentenece_id', '=', 'source_sentences.id')
-            ->join('projects', 'projects.id', '=', 'source_sentences.project_id')
-            ->select('*')
-            ->where('projects.id', $project_id)
+            ->leftJoin('translations', 'translations.source_sentence_id', '=', 'source_sentences.project_id')
+            ->join('projects', 'projects.project_id', '=', 'source_sentences.project_id')
+            ->select('source_sentences.*', 'translation_id', 'translation_lang', 'translation', 'translator_id', 'projects.*')
+            ->where('projects.project_id', $project_id)
             ->where('source_sentences.page_num', $lastSourcePage)
             ->orderBy('grouping_index')
             ->get();
@@ -59,18 +59,28 @@ class TranslationController extends Controller
      */
     public function store(Request $request)
     {
-        $data = [
-            'translation_lang' => $request->source_lang,
+        /* $translationData = [
+
+            'user_id' => 1,
+            'translation_lang' => $request->translation_lang,
+        ];
+
+        DB::table('translators')->insert($translatorData); */
+
+
+        $translationData = [
+            'translation_lang' => $request->translation_lang,
             'translation' => $request->translation,
-            'source_sentenece_id' => $request->source_sentenece_id,
+            'source_sentence_id' => $request->source_sentence_id,
             'translator_id' => 1,
         ];
 
-        DB::table('translations')->insert($data);
+        DB::table('translations')->insert($translationData);
 
+        // Update the users translation lang to prefill when needed
         DB::table('users')
             ->where('id', 1)
-            ->update(['saved_translation_lang' => '']);
+            ->update(['saved_translation_lang' => $request->translation_lang]);
 
     }
 
