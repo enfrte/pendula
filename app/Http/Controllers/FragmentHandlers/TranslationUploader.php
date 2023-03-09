@@ -23,17 +23,29 @@ class TranslationUploader extends Controller
         $sourcePageTranslations = DB::table('source_sentences')
         ->leftJoin('translations', 'translations.source_sentence_id', '=', 'source_sentences.id')
         ->join('projects', 'projects.id', '=', 'source_sentences.project_id')
-        ->select('*')
+            ->select(
+				'source_sentences.id AS source_sentence_id',
+				'grouping_index',
+				'page_num',
+				'sentence_text',
+				'translations.id AS translation_id',
+				'translations.lang AS translation_lang', 
+				'translation', 
+				'translator_id',
+				'projects.id AS project_id',
+				'title',
+				'description',
+				'projects.lang AS project_lang')
             ->where('projects.id', $project_id)
             ->where('source_sentences.page_num', $request->page_num)
             ->orderBy('grouping_index')
             ->get();
-        
-        return view("translations", [
+
+        return view("components/translation/sentenceTranslationComponent", [
             'project_id' => $project_id,
             'landingPage' => ($request->page_num),
             'sourcePageTranslations' => $sourcePageTranslations,
             'sourcePageExists' => $sourcePageTranslations->isNotEmpty() ? true : false,
-        ])->fragment('translation-upload');
+        ]);
     }
 }

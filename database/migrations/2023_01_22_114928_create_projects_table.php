@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('projects', function (Blueprint $table) {
-            $table->id('project_id');
+            $table->id();
             $table->string('title', 500);
             $table->string('description', 5000)->nullable();
-            $table->char('source_lang', 2);
+            $table->char('lang', 2);
             $table->timestamps();
             $table->foreignId('user_id')->constrained();
             $table->comment('The name and details of the text being translated.');

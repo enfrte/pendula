@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 /**
  * Handles requests from htmx to populate fragments in html. This one updates the list of langauges in select dropdown based on search criteria.
  */
-class LanguageSelect extends Controller
+class LanguageSelect2 extends Controller
 {
     /**
      * Handle the incoming request.

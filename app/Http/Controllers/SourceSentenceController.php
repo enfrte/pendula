@@ -21,7 +21,7 @@ class SourceSentenceController extends Controller
             ->max('page_num');
 
         return view(
-            'source-sentences', [
+			'sentences/source-sentences', [
                 'project_id' => $project_id,
                 'nextPageNum' => ($max_page_num + 1),
             ]
@@ -37,7 +37,7 @@ class SourceSentenceController extends Controller
     public function create()
     {
         // echo 'create';
-        return view('source-sentences');
+        return view('sentences/source-sentences');
     }
 
     /**
@@ -80,7 +80,7 @@ class SourceSentenceController extends Controller
                 ->max('page_num');
 
             return view(
-                'source-sentences',
+				'sentences/source-sentences',
                 [
                     'project_id' => $request->project_id,
                     'nextPageNum' => ($max_page_num + 1),
@@ -119,7 +119,7 @@ class SourceSentenceController extends Controller
         
         $project_id = $sourceSentence->project_id;
 
-        return view('source-sentences', [
+        return view('sentences/source-sentences', [
             'sentences', ['project_id' => $project_id]
         ]);
     }
@@ -165,9 +165,8 @@ class SourceSentenceController extends Controller
             ->where('project_id', $project_id)
             ->delete();
         
-        //return redirect("add-sentences/$project_id");
         return view(
-            'source-sentences',
+			'sentences/source-sentences',
             [
                 'project_id' => $project_id,
                 'nextPageNum' => $page_num,

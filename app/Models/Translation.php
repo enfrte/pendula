@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Translation extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+		'lang', 'translation', 'source_sentence_id', 'translator_id'
+    ];
+
 }

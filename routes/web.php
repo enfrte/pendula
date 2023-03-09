@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TranslationController;
 use App\Http\Controllers\SourceSentenceController;
 use App\Http\Controllers\FragmentHandlers\LanguageSelect;
+use App\Http\Controllers\FragmentHandlers\LanguageSelect2;
 use App\Http\Controllers\FragmentHandlers\SentenceUploader;
 use App\Http\Controllers\FragmentHandlers\TranslationUploader;
 
@@ -25,6 +27,10 @@ use App\Http\Controllers\FragmentHandlers\TranslationUploader;
     return view('welcome');
 }); */
 
+// Test
+Route::get('/test', [TestController::class, 'index']);
+Route::get('/fragmentTest', [TestController::class, 'fragmentTest']);
+
 // Home
 Route::get('/', [ProjectController::class, 'index']);
 
@@ -33,15 +39,18 @@ Route::resource('projects', ProjectController::class);
 
 // Sentences upload
 Route::resource('sourceSentences', SourceSentenceController::class);
-Route::get('add-sentences/{project_id}', [SourceSentenceController::class, 'index']);
-Route::delete('delete-project-page/{project_id}/{page_num}', [SourceSentenceController::class, 'deleteProjectPage']);
+Route::get('add-sentences/{id}', [SourceSentenceController::class, 'index']);
+Route::delete('delete-project-page/{id}/{page_num}', [SourceSentenceController::class, 'deleteProjectPage']);
 //Route::post('page-upload', [SourceSentenceController::class, 'pageUpload']);
 
 // Translations
+Route::put('translations/{translation_id}', [TranslationController::class, 'update']);
 Route::resource('translations', TranslationController::class);
-Route::get('translate-sentences/{project_id}', [TranslationController::class, 'index']);
+Route::get('translate-sentences/{id}', [TranslationController::class, 'index']);
 
 // htmx fragment handlers 
-Route::post('languageSearch/{view}', LanguageSelect::class);
-Route::post('sentence-upload/{project_id}', SentenceUploader::class);
-Route::post('translation-upload/{project_id}', TranslationUploader::class);
+Route::post('languageSearch', LanguageSelect::class);
+Route::post('sentence-upload/{id}', SentenceUploader::class);
+Route::post('translation-upload/{id}', TranslationUploader::class);
+
+Route::post('languageSearch2', LanguageSelect2::class);

@@ -19,7 +19,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return view('projects', [
+        return view('projects/projects', [
             'projects' => Project::all()
         ]);
     }
@@ -31,7 +31,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('create-project', [
+        return view('projects/create-project', [
             'languages' => Language::getIsoLanguages(),
         ]);
     }
@@ -49,11 +49,11 @@ class ProjectController extends Controller
             {
                 $incomingFields = $request->validate([
                     'title' => 'required',
-                    'source_lang' => 'required',
+					'lang' => 'required',
                 ]);
 
                 $incomingFields['title'] = strip_tags($incomingFields['title']);
-                $incomingFields['source_lang'] = strip_tags($incomingFields['source_lang']);
+                $incomingFields['lang'] = strip_tags($incomingFields['lang']);
                 $incomingFields['description'] = strip_tags($request->input('description'));
                 $incomingFields['user_id'] = $this->user_id; //auth()->id();
 
@@ -68,7 +68,7 @@ class ProjectController extends Controller
                 Translator::create($translatorColumns);
             });
 
-            return redirect('/projects');
+            return redirect('projects');
         } 
         catch (\Throwable $th) {
             //$request->session()->flash('status', 'Error!');
@@ -84,7 +84,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('projects', [
+        return view('projects/projects', [
             'projects' => Project::all()
         ]);
     }
@@ -97,7 +97,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('create-project', [
+        return view('projects/create-project', [
             'project' => Project::find($project->id)
         ]);
     }
@@ -120,8 +120,9 @@ class ProjectController extends Controller
             $incomingFields['description'] = strip_tags($request->input('description'));
 
             $project->update($incomingFields);
-            return redirect('/projects');
-        } catch (\Throwable $th) {
+            return redirect('projects');
+        } 
+        catch (\Throwable $th) {
             //$request->session()->flash('status', 'Task was successful!');
             echo $th->getMessage();
         }

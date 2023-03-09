@@ -14,14 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('translations', function (Blueprint $table) {
-            $table->id('translation_id');
-            $table->char('translation_lang', 2);
+            $table->id();
+            $table->char('lang', 2);
             $table->string('translation', 1000);
             $table->timestamps();
-            $table->unsignedBigInteger('source_sentence_id');
-            $table->foreign('source_sentence_id')->references('source_sentence_id')->on('source_sentences');
-            $table->unsignedBigInteger('translator_id');
-            $table->foreign('translator_id')->references('translator_id')->on('translators');
+			$table->foreignId('source_sentence_id')->constrained();
+			$table->foreignId('translator_id')->constrained();
             $table->comment('Sentence translations.');
         });
     }
